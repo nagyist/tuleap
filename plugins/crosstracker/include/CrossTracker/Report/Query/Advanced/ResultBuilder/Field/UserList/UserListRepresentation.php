@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (c) Enalean, 2024 - Present. All Rights Reserved.
+ * Copyright (c) Enalean, 2024-Present. All Rights Reserved.
  *
  * This file is a part of Tuleap.
  *
@@ -18,20 +18,24 @@
  * along with Tuleap. If not, see <http://www.gnu.org/licenses/>.
  */
 
-namespace Tuleap\Artidoc\Document;
+declare(strict_types=1);
 
-use Tuleap\Artidoc\Document\Section\AlreadyExistingSectionWithSameArtifactException;
-use Tuleap\Artidoc\Document\Section\Identifier\SectionIdentifier;
+namespace Tuleap\CrossTracker\Report\Query\Advanced\ResultBuilder\Field\UserList;
 
-interface SaveOneSection
+use Tuleap\CrossTracker\Report\Query\Advanced\ResultBuilder\SelectedValueRepresentation;
+
+/**
+ * @psalm-immutable
+ */
+final readonly class UserListRepresentation implements SelectedValueRepresentation
 {
     /**
-     * @throws AlreadyExistingSectionWithSameArtifactException
+     * @var UserListValueRepresentation[]
      */
-    public function saveSectionAtTheEnd(int $item_id, int $artifact_id): SectionIdentifier;
+    public array $value;
 
-    /**
-     * @throws AlreadyExistingSectionWithSameArtifactException
-     */
-    public function saveSectionBefore(int $item_id, int $artifact_id, SectionIdentifier $sibling_section_id): SectionIdentifier;
+    public function __construct(array $value)
+    {
+        $this->value = array_unique($value, SORT_REGULAR);
+    }
 }
